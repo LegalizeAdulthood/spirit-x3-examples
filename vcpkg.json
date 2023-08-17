@@ -1,0 +1,10 @@
+{
+  "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg/master/scripts/vcpkg.schema.json",
+  "name": "frac-form",
+  "version": "1.0.0",
+  "dependencies": [
+    "boost-spirit",
+    "boost-variant",
+    "gtest"
+  ]
+}
