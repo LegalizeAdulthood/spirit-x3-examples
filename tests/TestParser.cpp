@@ -14,8 +14,10 @@ TEST(TestParser, emptyString)
 TEST(TestParser, realNumber)
 {
     Complex value{-1.0, -1.0};
+    const Complex expected{3.14159, 0.0};
 
-    ASSERT_TRUE(parse("3.14159", value));
-    ASSERT_EQ(3.14159, value.re);
-    ASSERT_EQ(0.0, value.im);
+    const bool parsed = parse("3.14159", value);
+
+    ASSERT_TRUE(parsed);
+    ASSERT_EQ(expected, value);
 }

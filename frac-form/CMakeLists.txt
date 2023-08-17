@@ -1,4 +1,5 @@
 add_library(frac-form
+	include/Complex.h
 	include/Parser.h
 	Parser.cpp
 )
