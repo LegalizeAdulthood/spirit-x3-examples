@@ -2,7 +2,17 @@
 
 #include <gtest/gtest.h>
 
-TEST(TestParser, basic)
+TEST(TestParser, emptyString)
 {
-    ASSERT_TRUE(fractalFormula::parse(""));
+    double value{-1.0};
+
+    ASSERT_FALSE(fractalFormula::parse("", value));
+}
+
+TEST(TestParser, realNumber)
+{
+    double value{-1.0};
+
+    ASSERT_TRUE(fractalFormula::parse("3.14159", value));
+    ASSERT_EQ(3.14159, value);
 }

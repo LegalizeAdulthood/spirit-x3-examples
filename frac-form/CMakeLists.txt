@@ -4,3 +4,4 @@ add_library(frac-form
 )
 target_include_directories(frac-form PUBLIC include)
 target_link_libraries(frac-form PUBLIC Boost::boost)
+target_compile_features(frac-form PUBLIC cxx_std_17)
