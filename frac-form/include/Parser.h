@@ -6,7 +6,13 @@
 namespace fractalFormula
 {
 
-bool parse(const std::string &text, double &value);
+struct Complex
+{
+    double re;
+    double im;
+};
+
+bool parse(const std::string &text, Complex &value);
 
 } // namespace fractalFormula
 
