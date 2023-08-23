@@ -21,3 +21,14 @@ TEST(TestParser, realNumber)
     ASSERT_TRUE(parsed);
     ASSERT_EQ(expected, value);
 }
+
+TEST(TestParser, i)
+{
+    Complex value{-1.0, -1.0};
+    const Complex expected{0.0, 1.0};
+
+    const bool parsed = parse("i", value);
+
+    ASSERT_TRUE(parsed);
+    ASSERT_EQ(expected, value);
+}

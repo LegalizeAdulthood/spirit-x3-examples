@@ -9,15 +9,25 @@ namespace ascii = x3::ascii;
 namespace fractalFormula
 {
 
-auto assign = [](auto &ctx)
+auto assignReal = [](auto &ctx)
 {
     _val(ctx) = Complex{_attr(ctx), 0.0};
 };
 
-struct Constant;
-x3::rule<Constant, Complex> const constant = "constant";
-auto const                        constant_def = x3::double_[assign];
-BOOST_SPIRIT_DEFINE(constant);
+struct Real;
+x3::rule<Real, Complex> const real = "real";
+auto const                    real_def = x3::double_[assignReal];
+BOOST_SPIRIT_DEFINE(real);
+
+auto assignImaginary = [](auto &ctx)
+{
+    _val(ctx) = Complex{0.0, 1.0};
+};
+
+struct Imaginary;
+x3::rule<Imaginary, Complex> const imaginary = "imaginary";
+auto const                         imaginary_def = x3::lit('i')[assignImaginary];
+BOOST_SPIRIT_DEFINE(imaginary);
 
 bool parse(const std::string &text, Complex &value)
 {
@@ -28,7 +38,7 @@ bool parse(const std::string &text, Complex &value)
     using Iterator = std::string::const_iterator;
     Iterator       begin = text.begin();
     const Iterator end = text.end();
-    const bool     result = phrase_parse(begin, end, constant, space, value) && begin == end;
+    const bool     result = phrase_parse(begin, end, real | imaginary, space, value) && begin == end;
     return result;
 }
 
