@@ -16,17 +16,15 @@ auto assignReal = [](auto &ctx)
 
 struct Real;
 x3::rule<Real, Complex> const real = "real";
-auto const                    real_def = x3::double_[assignReal];
+auto const                    real_def = x3::double_[assignReal] >> !x3::lit('i');
 BOOST_SPIRIT_DEFINE(real);
 
-auto assignImaginary = [](auto &ctx)
-{
-    _val(ctx) = Complex{0.0, 1.0};
-};
+auto assignI = [](auto &ctx) { _val(ctx) = Complex{0.0, 1.0}; };
+auto assignImaginary = [](auto &ctx) { _val(ctx) = Complex{0.0, _attr(ctx)}; };
 
 struct Imaginary;
 x3::rule<Imaginary, Complex> const imaginary = "imaginary";
-auto const                         imaginary_def = x3::lit('i')[assignImaginary];
+auto const                         imaginary_def = x3::lit('i')[assignI] | (x3::double_ >> x3::lit('i'))[assignImaginary];
 BOOST_SPIRIT_DEFINE(imaginary);
 
 bool parse(const std::string &text, Complex &value)
