@@ -9,10 +9,7 @@ namespace ascii = x3::ascii;
 namespace fractalFormula
 {
 
-auto assignReal = [](auto &ctx)
-{
-    _val(ctx) = Complex{_attr(ctx), 0.0};
-};
+auto assignReal = [](auto &ctx) { _val(ctx) = Complex{_attr(ctx), 0.0}; };
 
 struct Real;
 x3::rule<Real, Complex> const real = "real";
@@ -24,8 +21,13 @@ auto assignImaginary = [](auto &ctx) { _val(ctx) = Complex{0.0, _attr(ctx)}; };
 
 struct Imaginary;
 x3::rule<Imaginary, Complex> const imaginary = "imaginary";
-auto const                         imaginary_def = x3::lit('i')[assignI] | (x3::double_ >> x3::lit('i'))[assignImaginary];
+auto const imaginary_def = x3::lit('i')[assignI] | (x3::double_ >> x3::lit('i'))[assignImaginary];
 BOOST_SPIRIT_DEFINE(imaginary);
+
+struct Literal;
+x3::rule<Literal, Complex> const literal = "literal";
+auto const                       literal_def = real | imaginary;
+BOOST_SPIRIT_DEFINE(literal);
 
 bool parse(const std::string &text, Complex &value)
 {
@@ -36,7 +38,7 @@ bool parse(const std::string &text, Complex &value)
     using Iterator = std::string::const_iterator;
     Iterator       begin = text.begin();
     const Iterator end = text.end();
-    const bool     result = phrase_parse(begin, end, real | imaginary, space, value) && begin == end;
+    const bool     result = phrase_parse(begin, end, literal, space, value) && begin == end;
     return result;
 }
 
