@@ -1,6 +1,10 @@
 add_library(frac-form
+	include/AST.h
+	include/ASTAdapted.h
 	include/Complex.h
+	include/FormulaParser.h
 	include/Parser.h
+	FormulaParser.cpp
 	Parser.cpp
 )
 target_include_directories(frac-form PUBLIC include)
