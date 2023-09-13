@@ -34,3 +34,21 @@ TEST(TestFormulaParser, notANumber)
 
     ASSERT_FALSE(parsed);
 }
+
+TEST(TestFormulaParser, add)
+{
+    ast::Expression value;
+
+    const bool parsed = parseFormula("3 + 4", value);
+
+    ASSERT_TRUE(parsed);
+    const ast::Operand::variant_type &var = value.first.get();
+    ASSERT_FALSE(var.empty());
+    const ast::Expression &expr = boost::get<x3::forward_ast<ast::Expression>>(var).get();
+    ASSERT_EQ(3.0, boost::get<double>(expr.first.get()));
+    const std::vector<ast::Operation> &rest = value.rest;
+    ASSERT_EQ(1U, rest.size());
+    ASSERT_EQ('+', rest[0].operation);
+    const ast::Expression &rhsExpr = boost::get<x3::forward_ast<ast::Expression>>(rest[0].operand).get();
+    ASSERT_EQ(4.0, boost::get<double>(rhsExpr.first.get()));
+}
