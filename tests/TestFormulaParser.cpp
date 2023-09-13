@@ -26,6 +26,32 @@ TEST(TestFormulaParser, realNumber)
     ASSERT_EQ(expected, boost::get<double>(expr.first.get()));
 }
 
+TEST(TestFormulaParser, i)
+{
+    ast::Expression value;
+
+    const bool parsed = parseFormula("i", value);
+
+    ASSERT_TRUE(parsed);
+    const auto &var = value.first.get();
+    ASSERT_FALSE(var.empty());
+    const auto &expr = boost::get<x3::forward_ast<ast::Expression>>(var).get();
+    ASSERT_EQ(1.0, boost::get<x3::forward_ast<ast::Imaginary>>(expr.first.get()).get().value);
+}
+
+TEST(TestFormulaParser, imaginary)
+{
+    ast::Expression value;
+
+    const bool parsed = parseFormula("3.14159i", value);
+
+    ASSERT_TRUE(parsed);
+    const auto &var = value.first.get();
+    ASSERT_FALSE(var.empty());
+    const auto &expr = boost::get<x3::forward_ast<ast::Expression>>(var).get();
+    ASSERT_EQ(3.14159, boost::get<x3::forward_ast<ast::Imaginary>>(expr.first.get()).get().value);
+}
+
 TEST(TestFormulaParser, notANumber)
 {
     ast::Expression value;

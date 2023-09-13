@@ -23,6 +23,10 @@ struct UnaryExpr_tag;
 using UnaryExprRule = x3::rule<UnaryExpr_tag, ast::Operand>;
 UnaryExprRule const UnaryExpr = "unary_expr";
 
+struct Imaginary_tag;
+using ImaginaryRule = x3::rule<Imaginary_tag, ast::Imaginary>;
+ImaginaryRule const Imaginary = "imaginary";
+
 struct PrimaryExpr_tag;
 using PrimaryExprRule = x3::rule<PrimaryExpr_tag, ast::Operand>;
 PrimaryExprRule const PrimaryExpr = "primary_expr";
@@ -44,6 +48,10 @@ using ExpressionRule = x3::rule<Expression_tag, ast::Expression>;
 ExpressionRule const Expression = "expression";
 
 // clang-format off
+auto const Imaginary_def =
+    x3::lit('i') >> x3::attr(1.0)
+    | x3::double_ >> x3::lit('i');
+
 auto const AdditiveExpr_def =
     MultiplicativeExpr >>
     *(
@@ -72,15 +80,16 @@ auto const FunctionCall_def =
     Identifier >> -('(' > ArgumentList > ')');
 
 auto const PrimaryExpr_def =
-    x3::double_
+    Imaginary
+    | x3::double_
     | FunctionCall
     | '(' > Expression > ')';
 
 auto const Expression_def = AdditiveExpr;
 // clang-format on
 
-BOOST_SPIRIT_DEFINE(AdditiveExpr, MultiplicativeExpr, UnaryExpr, ArgumentList, Identifier, FunctionCall, PrimaryExpr,
-                    Expression);
+BOOST_SPIRIT_DEFINE(Imaginary, AdditiveExpr, MultiplicativeExpr, UnaryExpr, ArgumentList, Identifier, FunctionCall,
+                    PrimaryExpr, Expression);
 
 bool parseFormula(const std::string &text, ast::Expression &value)
 {
