@@ -8,6 +8,7 @@
 namespace fractalFormula
 {
 
+bool parseFormula(const std::string &text, ast::Expression &value, std::string &errors);
 bool parseFormula(const std::string &text, ast::Expression &value);
 
 } // namespace fractalFormula

@@ -1,5 +1,5 @@
-#include <FormulaParser.h>
 #include <ASTPrinter.h>
+#include <FormulaParser.h>
 
 #include <gtest/gtest.h>
 
@@ -18,7 +18,7 @@ TEST(TestFormulaParser, emptyString)
 TEST(TestFormulaParser, realNumber)
 {
     ast::Expression value;
-    const double expected{3.14159};
+    const double    expected{3.14159};
 
     const bool parsed = parseFormula("3.14159", value);
 
@@ -82,14 +82,26 @@ TEST(TestFormulaParser, add)
     ASSERT_EQ(4.0, boost::get<double>(rhsExpr.first.get()));
 }
 
+TEST(TestFormulaParser, trailingAdditiveOperator)
+{
+    ast::Expression value;
+    std::string     errors;
+
+    const bool parsed = parseFormula("3+", value, errors);
+
+    ASSERT_FALSE(parsed);
+    ASSERT_FALSE(errors.empty());
+}
+
 TEST(TestASTPrinter, add)
 {
     std::ostringstream str;
-    ast::Expression value;
-    const bool parsed = parseFormula("3+4", value);
+    ast::Expression    value;
+    const bool         parsed = parseFormula("3+4", value);
 
     ast::Printer printer(str);
     printer(value);
 
+    ASSERT_TRUE(parsed);
     ASSERT_EQ("(3 + 4)", str.str());
 }
