@@ -1,6 +1,7 @@
 add_library(frac-form
 	include/AST.h
 	include/ASTAdapted.h
+	include/ASTPrinter.h
 	include/Complex.h
 	include/FormulaParser.h
 	include/Parser.h

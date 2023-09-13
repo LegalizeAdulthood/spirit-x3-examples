@@ -1,6 +1,9 @@
 #include <FormulaParser.h>
+#include <ASTPrinter.h>
 
 #include <gtest/gtest.h>
+
+#include <sstream>
 
 using namespace fractalFormula;
 namespace x3 = boost::spirit::x3;
@@ -77,4 +80,16 @@ TEST(TestFormulaParser, add)
     ASSERT_EQ('+', rest[0].operation);
     const ast::Expression &rhsExpr = boost::get<x3::forward_ast<ast::Expression>>(rest[0].operand).get();
     ASSERT_EQ(4.0, boost::get<double>(rhsExpr.first.get()));
+}
+
+TEST(TestASTPrinter, add)
+{
+    std::ostringstream str;
+    ast::Expression value;
+    const bool parsed = parseFormula("3+4", value);
+
+    ast::Printer printer(str);
+    printer(value);
+
+    ASSERT_EQ("(3 + 4)", str.str());
 }
