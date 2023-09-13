@@ -13,7 +13,7 @@ auto assignReal = [](auto &ctx) { _val(ctx) = Complex{_attr(ctx), 0.0}; };
 
 struct Real;
 x3::rule<Real, Complex> const real = "real";
-auto const                    real_def = x3::double_[assignReal] >> !x3::lit('i');
+auto const                    real_def = x3::double_[assignReal];
 BOOST_SPIRIT_DEFINE(real);
 
 auto assignI = [](auto &ctx) { _val(ctx) = Complex{0.0, 1.0}; };
@@ -26,7 +26,7 @@ BOOST_SPIRIT_DEFINE(imaginary);
 
 struct Literal;
 x3::rule<Literal, Complex> const literal = "literal";
-auto const                       literal_def = real | imaginary;
+auto const                       literal_def = imaginary | real;
 BOOST_SPIRIT_DEFINE(literal);
 
 bool parse(const std::string &text, Complex &value)
