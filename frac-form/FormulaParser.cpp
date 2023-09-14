@@ -76,7 +76,6 @@ OnFailure::OnFailure()
     m_ruleNameToExplanation["expression"] = "Expression";
     m_ruleNameToExplanation["function_call"] = "Function Call";
     m_ruleNameToExplanation["argument_list"] = "Argument List";
-    m_ruleNameToExplanation["expression"] = "Expression";
 }
 
 struct AdditiveExprTag : Annotation
@@ -181,7 +180,6 @@ bool parseFormula(const std::string &text, ast::Expression &value, std::string &
     using x3::double_;
     using x3::phrase_parse;
 
-    using Iterator = std::string::const_iterator;
     Iterator       begin = text.begin();
     const Iterator end = text.end();
 
