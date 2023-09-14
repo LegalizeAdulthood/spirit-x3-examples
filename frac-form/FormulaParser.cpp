@@ -147,7 +147,7 @@ auto const MultiplicativeExpr_def =
 auto const UnaryExpr_def =
     PrimaryExpr
     | (x3::char_('-') > PrimaryExpr)
-    | (x3::char_('-') > PrimaryExpr);
+    | (x3::char_('+') > PrimaryExpr);
 
 auto const ArgumentList_def = Expression % ',';
 
